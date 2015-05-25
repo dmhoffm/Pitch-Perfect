@@ -8,12 +8,15 @@
 
 import Foundation
 
+//
+// model for recorded audio object
+//
 class RecordedAudio: NSObject{
     var filePathUrl: NSURL!
     var title: String!
     
-    init(fromUrl url: NSURL!, fromTitle t: String!) {
-        filePathUrl = url
-        title = t
+    init(fromFilePathUrl filePathUrl: NSURL!, fromTitle title: String!) {
+        self.filePathUrl = filePathUrl
+        self.title  = title
     }
 }

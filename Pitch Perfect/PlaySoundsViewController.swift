@@ -16,8 +16,11 @@ class PlaySoundsViewController: UIViewController {
     var audioFile: AVAudioFile!
     var recordedAudio: RecordedAudio!
     
+    // Outlet to control display of stop play button
     @IBOutlet weak var stopButton: UIButton!
     
+    //
+    // on load, initalize audio, hide stop playback button
     override func viewDidLoad() {
         super.viewDidLoad()
         if var filePathURL = recordedAudio.filePathUrl {
@@ -37,12 +40,9 @@ class PlaySoundsViewController: UIViewController {
         stopButton.hidden = true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-
+    //
+    // play button actions
     @IBAction func PlaySoundsSlowly(sender: UIButton) {
         println("print slowly snail")
         play(0.5)
@@ -63,27 +63,26 @@ class PlaySoundsViewController: UIViewController {
         playAudioWithVariablePitch(-1000.0)
     }
     
+    // stop playback button
     @IBAction func StopPlayBack(sender: UIButton) {
-        audioPlayer.stop()
-        audioEngine.stop()
-        audioEngine.reset()
+        stopAudio()
         stopButton.hidden = true
     }
     
+    //
+    // play audio at a given rate
     private func play(rate: Float) {
-        audioPlayer.stop()
-        audioEngine.stop()
-        audioEngine.reset()
+        stopAudio()
         audioPlayer.rate = rate
         audioPlayer.currentTime = 0.0
         audioPlayer.play()
         stopButton.hidden = false
     }
     
+    //
+    // play audio at a given pitch
     private func playAudioWithVariablePitch(pitch: Float) {
-        audioPlayer.stop()
-        audioEngine.stop()
-        audioEngine.reset()
+        stopAudio()
         var pitchPlayer = AVAudioPlayerNode()
         audioEngine.attachNode(pitchPlayer)
         var timePitch = AVAudioUnitTimePitch()
@@ -96,6 +95,14 @@ class PlaySoundsViewController: UIViewController {
         pitchPlayer.play()
         
         stopButton.hidden = false
+    }
+    
+    //
+    // stop audio playback
+    private func stopAudio(){
+        audioPlayer.stop()
+        audioEngine.stop()
+        audioEngine.reset()
     }
 
     /*
